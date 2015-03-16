@@ -7,7 +7,9 @@
 //
 
 #import "AppDelegate.h"
-
+#import "ViewController.h"
+UIAlertView *confirmAlert;
+UIAlertView *alertView;
 @interface AppDelegate ()
 
 @end
@@ -28,6 +30,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -36,10 +39,67 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //確認是否從Extention轉入
+    if ([self didLinkFromTodayExtention]) {
+        ViewController *vc = (ViewController *)self.window.rootViewController;
+        [vc.adView setHidden:NO];
+    };
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+
+-(BOOL) didLinkFromTodayExtention
+{
+    NSUserDefaults *sharedDefaults = [[NSUserDefaults alloc]initWithSuiteName:@"group.aircon.ASentenceOfADay"];
+    
+
+    if ([sharedDefaults boolForKey:@"fromTodayExtention"]) {
+        [sharedDefaults setBool:NO forKey:@"fromTodayExtention"];
+        [sharedDefaults synchronize];
+        return YES;
+    }
+    return NO;
+}
+
+
++ (void)setShadow:(id)sender withRange:(CGSize)size {
+    UIView *view = (UIView *)sender;
+    
+    view.layer.shadowPath = [UIBezierPath bezierPathWithRect:view.bounds].CGPath;
+    
+    view.clipsToBounds = NO;
+    view.layer.masksToBounds = NO;
+    view.layer.shadowRadius = 6;
+    view.layer.shadowColor = [UIColor blackColor].CGColor;
+    view.layer.shadowOpacity = 0.5;
+    view.layer.shadowOffset = size;
+}
+
+
++ (void)showConfirmWithMessage:(NSString *)message withTitle:(NSString *) title deletgate:(id)delegate{
+    
+    confirmAlert = [[UIAlertView alloc]initWithTitle:title
+                                             message:message
+                                            delegate:delegate
+                                   cancelButtonTitle:@"取消"
+                                   otherButtonTitles:@"確定", nil];
+    [confirmAlert show];
+
+}
+
++ (void)showAlertWithMessage:(NSString *)message withTitle:(NSString *) title{
+    alertView = [[UIAlertView alloc]initWithTitle:title
+                                           message:message
+                                          delegate:nil
+                                 cancelButtonTitle:@"確定"
+                                 otherButtonTitles:nil];
+    
+    [alertView show];
+    
+}
+
 
 @end

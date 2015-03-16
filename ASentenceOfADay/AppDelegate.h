@@ -12,6 +12,9 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
++ (void)setShadow:(id)sender withRange:(CGSize)size;
++ (void)showConfirmWithMessage:(NSString *)message withTitle:(NSString *) title deletgate:(id)delegate;
 
++ (void)showAlertWithMessage:(NSString *)message withTitle:(NSString *) title;
 @end
 

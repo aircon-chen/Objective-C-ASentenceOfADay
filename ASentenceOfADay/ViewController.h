@@ -10,6 +10,5 @@
 @import GoogleMobileAds;
 @interface ViewController : UIViewController
 @property (weak, nonatomic) IBOutlet GADBannerView *aGADBannerView;
-@property (weak, nonatomic) IBOutlet UIVisualEffectView *adView;
 @end
 

@@ -16,5 +16,6 @@
 + (void)showConfirmWithMessage:(NSString *)message withTitle:(NSString *) title deletgate:(id)delegate;
 
 + (void)showAlertWithMessage:(NSString *)message withTitle:(NSString *) title;
++ (BOOL)isConnectInternet;
 @end
 

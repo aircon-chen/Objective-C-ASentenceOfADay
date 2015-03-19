@@ -9,6 +9,7 @@
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
 #import "TFHpple.h"
+#import "AppDelegate.h"
 @interface TodayViewController () <NCWidgetProviding>{
     NSString *sentenceEN;//英文句子
     NSString *imageURL;//圖檔路徑
@@ -23,13 +24,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [self callWeb];
-    
+    [self callWebSwitch];
     self.englishSentenceLabel.text = sentenceEN;
     
     NSURL *url = [NSURL URLWithString:imageURL];
     //Asynchronous
-    self.authorImage.image = nil;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
     dispatch_async(queue, ^(void) {
         
@@ -57,7 +56,24 @@
     completionHandler(NCUpdateResultNewData);
 }
 
--(void) callWeb
+
+
+-(void)callWebSwitch
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    NSString *strDate = [dateFormatter stringFromDate:[NSDate date]];
+    int dDate = [strDate intValue];
+    if (dDate % 2 > 0) {
+        [self callWeb1];
+    }else{
+        [self callWeb2];
+    }
+}
+
+
+
+-(void) callWeb1
 {
     NSString *htmlString=[NSString stringWithContentsOfURL:[NSURL URLWithString: @"http://www.managertoday.com.tw/quotes/"] encoding: NSUTF8StringEncoding error:nil];
     NSData *htmlData=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
@@ -71,6 +87,22 @@
         sentenceEN = [[[element searchWithXPathQuery:@"//p[@class='sentence-eng']"] objectAtIndex:0] content];
     }else{
         sentenceEN = @"本日僅提供中文,請點下方按鈕!";
+    }
+}
+
+-(void) callWeb2
+{
+    NSString *htmlString=[NSString stringWithContentsOfURL:[NSURL URLWithString: @"http://www.dailyenglishquote.com/"]
+                                                  encoding: NSUTF8StringEncoding
+                                                     error:nil];
+    NSData *htmlData=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple * doc  = [[TFHpple alloc] initWithHTMLData:htmlData];
+    NSArray *elements  = [doc searchWithXPathQuery:@"//div[@class='entry']"];
+    TFHppleElement *element = [elements objectAtIndex:0];
+    imageURL = [[[element searchWithXPathQuery:@"//a/img"] objectAtIndex:0] objectForKey:@"src"];
+    
+    if ([element searchWithXPathQuery:@"//p/strong"].count > 0 ) {
+        sentenceEN = [[[element searchWithXPathQuery:@"//p/strong"] objectAtIndex:0] content];
     }
 }
 

@@ -53,18 +53,19 @@
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"SentenceCell" forIndexPath:indexPath];
             NSURL *url = [NSURL URLWithString:[innerDict objectForKey:@"authorImageURL"]];
             
-            //Asynchronous
-            cell.authorImageView.image = nil;
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-            dispatch_async(queue, ^(void) {
-                
-                UIImage *urlImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    cell.authorImageView.image = urlImage;
-                    [cell setNeedsLayout];
+            if([AppDelegate isConnectInternet]){
+                //Asynchronous
+                dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+                dispatch_async(queue, ^(void) {
+                    
+                    UIImage *urlImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        cell.authorImageView.image = urlImage;
+                        [cell setNeedsLayout];
+                    });
                 });
-            });
+            }
             
             cell.authorLabel.text = [innerDict objectForKey:@"author"];
             cell.sentenceENLabel.text = [innerDict objectForKey:@"sentenceEN"];

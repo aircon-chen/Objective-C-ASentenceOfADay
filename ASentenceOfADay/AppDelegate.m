@@ -8,17 +8,23 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "Reachability.h"
 UIAlertView *confirmAlert;
 UIAlertView *alertView;
 @interface AppDelegate ()
-
+{
+    
+}
 @end
-
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+    pageControl.backgroundColor = [UIColor blackColor];
     return YES;
 }
 
@@ -39,11 +45,6 @@ UIAlertView *alertView;
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    //確認是否從Extention轉入
-    if ([self didLinkFromTodayExtention]) {
-        ViewController *vc = (ViewController *)self.window.rootViewController;
-        [vc.adView setHidden:NO];
-    };
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -99,6 +100,21 @@ UIAlertView *alertView;
     
     [alertView show];
     
+}
+
+
++ (BOOL)isConnectInternet
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    [reachability startNotifier];
+    NetworkStatus status = [reachability currentReachabilityStatus];
+    
+    if(status == NotReachable){
+        [reachability stopNotifier];
+        return NO;
+    }
+    [reachability stopNotifier];
+    return YES;
 }
 
 

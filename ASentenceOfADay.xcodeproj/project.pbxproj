@@ -17,6 +17,10 @@
 		8F0336F91AA6E890008A812F /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0336F81AA6E890008A812F /* MessageUI.framework */; };
 		8F0336FD1AA6E8A4008A812F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0336FC1AA6E8A4008A812F /* SystemConfiguration.framework */; };
 		8F0336FE1AA6E9AF008A812F /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0336E81AA6E810008A812F /* GoogleMobileAds.framework */; };
+		8F1521A11AB97295001AF226 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1521A01AB97295001AF226 /* Reachability.m */; };
+		8F1521A41AB9D120001AF226 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F0336E81AA6E810008A812F /* GoogleMobileAds.framework */; };
+		8F1521AB1ABA74DF001AF226 /* UserGuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1521AA1ABA74DF001AF226 /* UserGuideViewController.m */; };
+		8F1521AE1ABA781B001AF226 /* PageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1521AD1ABA781B001AF226 /* PageContentViewController.m */; };
 		8F1FC6141AA7260A007CA57F /* AirButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1FC60F1AA7260A007CA57F /* AirButton.m */; };
 		8F1FC6151AA7260A007CA57F /* AirTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1FC6111AA7260A007CA57F /* AirTextField.m */; };
 		8F1FC6161AA7260A007CA57F /* AirTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F1FC6131AA7260A007CA57F /* AirTextView.m */; };
@@ -94,6 +98,15 @@
 		8F0336FC1AA6E8A4008A812F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8F0336FF1AA6EF85008A812F /* ASentenceOfADay.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ASentenceOfADay.entitlements; sourceTree = "<group>"; };
 		8F0337001AA6F1FB008A812F /* ASentenceOfADay.widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = ASentenceOfADay.widget.entitlements; sourceTree = "<group>"; };
+		8F15219F1AB97295001AF226 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		8F1521A01AB97295001AF226 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		8F1521A61ABA63CB001AF226 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		8F1521A71ABA649A001AF226 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "zh-Hant"; path = "zh-Hant.lproj/Main.storyboard"; sourceTree = "<group>"; };
+		8F1521A81ABA649A001AF226 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "zh-Hant"; path = "zh-Hant.lproj/LaunchScreen.xib"; sourceTree = "<group>"; };
+		8F1521A91ABA74DF001AF226 /* UserGuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserGuideViewController.h; sourceTree = "<group>"; };
+		8F1521AA1ABA74DF001AF226 /* UserGuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserGuideViewController.m; sourceTree = "<group>"; };
+		8F1521AC1ABA781B001AF226 /* PageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContentViewController.h; sourceTree = "<group>"; };
+		8F1521AD1ABA781B001AF226 /* PageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContentViewController.m; sourceTree = "<group>"; };
 		8F1FC60E1AA7260A007CA57F /* AirButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirButton.h; sourceTree = "<group>"; };
 		8F1FC60F1AA7260A007CA57F /* AirButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirButton.m; sourceTree = "<group>"; };
 		8F1FC6101AA7260A007CA57F /* AirTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirTextField.h; sourceTree = "<group>"; };
@@ -111,9 +124,7 @@
 		8FAD3A841AA60CFB00502D5F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8FAD3A861AA60CFB00502D5F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		8FAD3A871AA60CFB00502D5F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		8FAD3A8A1AA60CFB00502D5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8FAD3A8C1AA60CFB00502D5F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		8FAD3A8F1AA60CFB00502D5F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8FAD3A951AA60CFB00502D5F /* ASentenceOfADayTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ASentenceOfADayTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAD3A9A1AA60CFB00502D5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8FAD3A9B1AA60CFB00502D5F /* ASentenceOfADayTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ASentenceOfADayTests.m; sourceTree = "<group>"; };
@@ -166,6 +177,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F1521A41AB9D120001AF226 /* GoogleMobileAds.framework in Frameworks */,
 				8FFF8D4F1AA6B52E00513B23 /* libxml2.dylib in Frameworks */,
 				8FFF8D341AA6A58300513B23 /* NotificationCenter.framework in Frameworks */,
 			);
@@ -228,6 +240,12 @@
 				8F6C50E21AA75E61003826A6 /* SentenceCollectionViewCell.m */,
 				8F6C50E41AA886A5003826A6 /* MyCollectionView.h */,
 				8F6C50E51AA886A5003826A6 /* MyCollectionView.m */,
+				8F15219F1AB97295001AF226 /* Reachability.h */,
+				8F1521A01AB97295001AF226 /* Reachability.m */,
+				8F1521A91ABA74DF001AF226 /* UserGuideViewController.h */,
+				8F1521AA1ABA74DF001AF226 /* UserGuideViewController.m */,
+				8F1521AC1ABA781B001AF226 /* PageContentViewController.h */,
+				8F1521AD1ABA781B001AF226 /* PageContentViewController.m */,
 			);
 			path = ASentenceOfADay;
 			sourceTree = "<group>";
@@ -411,8 +429,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
-				Base,
+				"zh-Hant",
 			);
 			mainGroup = 8FAD3A731AA60CFB00502D5F;
 			productRefGroup = 8FAD3A7D1AA60CFB00502D5F /* Products */;
@@ -467,10 +484,13 @@
 				8FAD3B031AA611AA00502D5F /* TFHpple.m in Sources */,
 				8FAD3B051AA611AA00502D5F /* XPathQuery.m in Sources */,
 				8F6C50E61AA886A5003826A6 /* MyCollectionView.m in Sources */,
+				8F1521AB1ABA74DF001AF226 /* UserGuideViewController.m in Sources */,
 				8FAD3B041AA611AA00502D5F /* TFHppleElement.m in Sources */,
 				8F6C50E31AA75E61003826A6 /* SentenceCollectionViewCell.m in Sources */,
 				8F1FC6151AA7260A007CA57F /* AirTextField.m in Sources */,
+				8F1521A11AB97295001AF226 /* Reachability.m in Sources */,
 				8F1FC6141AA7260A007CA57F /* AirButton.m in Sources */,
+				8F1521AE1ABA781B001AF226 /* PageContentViewController.m in Sources */,
 				8FC26B4A1AA757C700148152 /* AirImageView.m in Sources */,
 				8FC26B471AA7566300148152 /* AirView.m in Sources */,
 			);
@@ -518,7 +538,7 @@
 		8FAD3A891AA60CFB00502D5F /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8FAD3A8A1AA60CFB00502D5F /* Base */,
+				8F1521A71ABA649A001AF226 /* zh-Hant */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -526,7 +546,8 @@
 		8FAD3A8E1AA60CFB00502D5F /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				8FAD3A8F1AA60CFB00502D5F /* Base */,
+				8F1521A61ABA63CB001AF226 /* zh-Hant */,
+				8F1521A81ABA649A001AF226 /* zh-Hant */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -698,6 +719,10 @@
 				CODE_SIGN_ENTITLEMENTS = ASentenceOfADay.widget/ASentenceOfADay.widget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -721,6 +746,10 @@
 				CODE_SIGN_ENTITLEMENTS = ASentenceOfADay.widget/ASentenceOfADay.widget.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

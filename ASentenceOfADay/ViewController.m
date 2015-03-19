@@ -11,6 +11,7 @@
 #import "AirButton.h"
 #import "AppDelegate.h"
 @interface ViewController (){
+
     NSString *sentenceTW;//中文句子
     NSString *sentenceEN;//英文句子
     NSString *author;//作者
@@ -32,47 +33,52 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [self.adView setHidden:YES];
-    [self callWeb];
-    [self checkMySentenceDict];
+    [self.favorButton setHidden:YES];
     
-    self.authorIntroLabel.text = author;
-    if (sentenceEN.length > 0) {
-        self.englishSentenceLabel.text = [NSString stringWithFormat:@"\"%@\"", sentenceEN];
-    }else{
-        self.englishSentenceLabel.hidden = NO;
-        self.englishSentenceLabel.hidden = YES;
-    }
-
-    if (sentenceTW.length > 0) {
-        self.chineseSentenceLabel.text = sentenceTW;
-        self.chineseSentenceLabel.hidden = NO;
-    }else{
-        self.chineseSentenceLabel.hidden = YES;
-    }
-
-    NSURL *url = [NSURL URLWithString:imageURL];
-    //Asynchronous
-    self.authorImage.image = nil;
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-    dispatch_async(queue, ^(void) {
+    if([AppDelegate isConnectInternet]){
         
-        UIImage *urlImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
+        [self callWebSwitch];
+        [self checkMySentenceDict];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.authorImage.image = urlImage;
-            [self.authorImage setNeedsLayout];
+        self.authorIntroLabel.text = author;
+        if (sentenceEN.length > 0) {
+            self.englishSentenceLabel.text = [NSString stringWithFormat:@"\"%@\"", sentenceEN];
+        }else{
+            self.englishSentenceLabel.hidden = NO;
+            self.englishSentenceLabel.hidden = YES;
+        }
+        
+        if (sentenceTW.length > 0) {
+            self.chineseSentenceLabel.text = sentenceTW;
+            self.chineseSentenceLabel.hidden = NO;
+        }else{
+            self.chineseSentenceLabel.hidden = YES;
+        }
+        
+        NSURL *url = [NSURL URLWithString:imageURL];
+        //Asynchronous
+        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
+        dispatch_async(queue, ^(void) {
+            
+            UIImage *urlImage = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:url]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.authorImage.image = urlImage;
+                [self.authorImage setNeedsLayout];
+            });
         });
-    });
-
+        
+        //Admob
+        self.aGADBannerView.adUnitID = @"ca-app-pub-5200673733349176/1456677640";
+        self.aGADBannerView.rootViewController = self;
+        GADRequest *request = [GADRequest request];
+//        request.testDevices = @[@"ffd5b4c17425a518e4f9c99b1738ae16"];
+        [self.aGADBannerView loadRequest:request];
+    }else{
+        //網路不通
+        [AppDelegate showAlertWithMessage:@"網路服務異常！" withTitle:@"服務異常"];
+    }
     
-    
-    //Admob
-    self.aGADBannerView.adUnitID = @"ca-app-pub-5200673733349176/1456677640";
-    self.aGADBannerView.rootViewController = self;
-    GADRequest *request = [GADRequest request];
-    request.testDevices = @[@"ffd5b4c17425a518e4f9c99b1738ae16"];
-    [self.aGADBannerView loadRequest:request];
 }
 
 
@@ -86,37 +92,7 @@
     [super viewDidUnload];
 }
 
--(void) callWeb
-{
-    NSString *htmlString=[NSString stringWithContentsOfURL:[NSURL URLWithString: @"http://www.managertoday.com.tw/quotes/"] encoding: NSUTF8StringEncoding error:nil];
-    NSData *htmlData=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
-    TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:htmlData];
-    NSArray *elements  = [doc searchWithXPathQuery:@"//div[@class='quote-mainBlock']"];
-    TFHppleElement *element = [elements objectAtIndex:0];
-    
-    imageURL = [[[element searchWithXPathQuery:@"//div[@class='quote-imgBorder']/img"] objectAtIndex:0] objectForKey:@"src"];
-    NSArray *authorNSArray = [element searchWithXPathQuery:@"//ul[@class='caption-list']/li"];
-    for (TFHppleElement *element in authorNSArray) {
-        if (author == nil) {
-            author = [[NSString alloc] initWithString:[element content]];
-        }else{
-            author = [NSString stringWithFormat:@"%@\n%@", author,[element content]];
-        }
-    }
-    
 
-    if ([element searchWithXPathQuery:@"//p[@class='sentence-zh_tw']"].count > 0 ) {
-        sentenceTW = [[[element searchWithXPathQuery:@"//p[@class='sentence-zh_tw']"] objectAtIndex:0] content];
-    }
-    if ([element searchWithXPathQuery:@"//p[@class='sentence-eng']"].count > 0 ) {
-        sentenceEN = [[[element searchWithXPathQuery:@"//p[@class='sentence-eng']"] objectAtIndex:0] content];
-    }
-
-}
-
-- (IBAction)closeAdButtonPressed:(id)sender {
-    [self.adView setHidden:YES];
-}
 
 - (IBAction)favorButtonPressed:(id)sender {
     NSDictionary *innerDataDict = [[NSDictionary alloc]initWithObjectsAndKeys:
@@ -166,8 +142,72 @@
 #pragma mark Segue
 - (IBAction)backToMain:(UIStoryboardSegue *)unwindSegue
 {
-    [self checkMySentenceDict];
+    [self viewDidLoad];
 }
+
+
+-(void)callWebSwitch
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyyMMdd"];
+    NSString *strDate = [dateFormatter stringFromDate:[NSDate date]];
+    int dDate = [strDate intValue];
+    if (dDate % 2 > 0) {
+        [self callWeb1];
+    }else{
+        [self callWeb2];
+    }
+}
+
+
+-(void) callWeb1
+{
+    NSString *htmlString=[NSString stringWithContentsOfURL:[NSURL URLWithString: @"http://www.managertoday.com.tw/quotes/"] encoding: NSUTF8StringEncoding error:nil];
+    NSData *htmlData=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple * doc       = [[TFHpple alloc] initWithHTMLData:htmlData];
+    NSArray *elements  = [doc searchWithXPathQuery:@"//div[@class='quote-mainBlock']"];
+    TFHppleElement *element = [elements objectAtIndex:0];
+    
+    imageURL = [[[element searchWithXPathQuery:@"//div[@class='quote-imgBorder']/img"] objectAtIndex:0] objectForKey:@"src"];
+    NSArray *authorNSArray = [element searchWithXPathQuery:@"//ul[@class='caption-list']/li"];
+    for (TFHppleElement *element in authorNSArray) {
+        if (author == nil) {
+            author = [[NSString alloc] initWithString:[element content]];
+        }else{
+            author = [NSString stringWithFormat:@"%@\n%@", author,[element content]];
+        }
+    }
+    
+    if ([element searchWithXPathQuery:@"//p[@class='sentence-zh_tw']"].count > 0 ) {
+        sentenceTW = [[[element searchWithXPathQuery:@"//p[@class='sentence-zh_tw']"] objectAtIndex:0] content];
+    }
+    if ([element searchWithXPathQuery:@"//p[@class='sentence-eng']"].count > 0 ) {
+        sentenceEN = [[[element searchWithXPathQuery:@"//p[@class='sentence-eng']"] objectAtIndex:0] content];
+    }
+}
+
+-(void) callWeb2
+{
+    NSString *htmlString=[NSString stringWithContentsOfURL:[NSURL URLWithString: @"http://www.dailyenglishquote.com/"]
+                                                  encoding: NSUTF8StringEncoding
+                                                     error:nil];
+    NSData *htmlData=[htmlString dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple * doc  = [[TFHpple alloc] initWithHTMLData:htmlData];
+    NSArray *elements  = [doc searchWithXPathQuery:@"//div[@class='entry']"];
+    TFHppleElement *element = [elements objectAtIndex:0];
+    imageURL = [[[element searchWithXPathQuery:@"//a/img"] objectAtIndex:0] objectForKey:@"src"];
+    
+    if ([element searchWithXPathQuery:@"//div"].count > 0 ) {
+        author = [[[element searchWithXPathQuery:@"//div"] objectAtIndex:2] content];
+    }
+    if ([element searchWithXPathQuery:@"//p/strong"].count > 0 ) {
+        sentenceEN = [[[element searchWithXPathQuery:@"//p/strong"] objectAtIndex:0] content];
+    }
+    if ([element searchWithXPathQuery:@"//p"].count > 0 ) {
+        sentenceTW = [[[element searchWithXPathQuery:@"//p"] objectAtIndex:3] content];
+    }
+}
+
 
 
 

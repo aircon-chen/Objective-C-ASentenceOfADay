@@ -152,6 +152,7 @@
     [dateFormatter setDateFormat:@"yyyyMMdd"];
     NSString *strDate = [dateFormatter stringFromDate:[NSDate date]];
     int dDate = [strDate intValue];
+    author = nil;
     if (dDate % 2 > 0) {
         [self callWeb1];
     }else{
